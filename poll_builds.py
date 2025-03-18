@@ -32,6 +32,11 @@ def processevent(event):
     """
     kernel_image = event["node"]["artifacts"]["kernel"]
     selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
+    build_id = event["id"]
+    # TODO: send the next event to a queue, then we can keep this code only for polling
+    print(kernel_image)
+    print(selftests)
+    print(event["id"])
 
 
 def pollevents(timestamp, kind, arch):
