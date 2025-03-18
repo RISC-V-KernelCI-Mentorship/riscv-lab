@@ -1,0 +1,35 @@
+name: Test kernel workflow
+on:
+  workflow_dispatch:
+    inputs:
+      kernel-url:
+        description: 'Compiled kernel image url'
+        required: true
+        type: string
+      selftests-url:
+        description: 'Compiled selftests url'
+        required: true
+        type: string
+      build-id:
+        description: 'Build id'
+        required: true
+        type: string
+jobs:
+  run-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install --no-install-recommends -y \
+            opensbi \
+            curl \
+            qemu-system-riscv64 \
+            qemu \
+            kmod \
+            tar \
+            unzip
+      - name: Run tests
+        run: ./tests_runner/run_experiment.sh "${{ inputs.kernel-url }}" "${{ inputs.selftests-url }}" "${{ inputs.build-id }}"
