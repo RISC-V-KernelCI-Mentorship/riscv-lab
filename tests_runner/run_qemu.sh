@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source run_tests.sh
-
 kernel=$1
 image=$2
 initrd=$3
@@ -43,4 +41,4 @@ qemu-system-riscv64 -m 2G -smp 2 \
 -display none &
 QEMU_PROCESS=$!
 echo $QUEMU_PROCESS
-
+sleep 20

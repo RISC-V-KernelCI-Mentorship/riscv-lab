@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source run_tests.sh
+# This script is meant for local use
+
+base_dir=$(dirname $0)
+source $base_dir/run_tests.sh
 
 kernel_image=$1
 selftests=$2
@@ -22,9 +25,8 @@ then
 	echo "Missing build id"
 	exit 1
 fi
-./download_image.sh &&\
-sudo ./copy_selftests.sh $selftests $image_dir/image.qcow2 &&\
-./run_qemu.sh $kernel_image $image_dir/image.qcow2 $image_dir/initrd $build_id &&\
-sleep 20 &&\
+$base_dir/download_image.sh &&\
+sudo $base_dir/copy_selftests.sh $selftests $image_dir/image.qcow2 &&\
+$base_dir/run_qemu.sh $kernel_image $image_dir/image.qcow2 $image_dir/initrd $build_id &&\
 run_tests $image_dir/ssh_user_rsa_key $build_id &&\
 pkill qemu-system
