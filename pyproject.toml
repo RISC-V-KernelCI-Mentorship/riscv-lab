@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "riscv-lab"
+version = "0.1.0"
+description = "Listens to RISC-V build from KernelCI and triggers tests"
+authors = [
+    "Camila Alvarez <cam.alvarez.i@gmail.com>"
+]
+readme = "README.md"
+license = "LGPL-2.1-or-later"
+repository = "https://github.com/CamilaAlvarez/riscv-lab"
+packages = [
+	{include = "riscvlab"},
+	{include = "runners", from = "riscvlab"}
+] 
+
+[tool.poetry.dependencies]
+requests = "^2.32.3"
+python = "^3.10"
+
+[tool.poetry.scripts]
+riscv-lab = "riscvlab.poll_builds:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
