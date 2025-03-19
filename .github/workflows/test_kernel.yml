@@ -27,9 +27,16 @@ jobs:
             opensbi \
             curl \
             qemu-system-riscv64 \
-            qemu \
+            qemu-utils \
             kmod \
             tar \
             unzip
+      - name: Download Debian image
+        run: ./tests_runner/download_image.sh
+      - name: Add selftests to image
+        run: sudo ./tests_runner/copy_selftests.sh "${{ inputs.selftests-url }}" /tmp/dqib_riscv64-virt/image.qcow2
+      - name: Start up QEMU
+        run: ./tests_runner/run_qemu.sh "${{ inputs.kernel-url }}" /tmp/dqib_riscv64-virt/image.qcow2 /tmp/dqib_riscv64-virt/initrd "${{ inputs.build-id }}"
       - name: Run tests
-        run: ./tests_runner/run_experiment.sh "${{ inputs.kernel-url }}" "${{ inputs.selftests-url }}" "${{ inputs.build-id }}"
+        run: ./tests_runner/run_tests.sh /tmp/dqib_riscv64-virt/ssh_user_rsa_key "${{ inputs.build-id }}"
+
