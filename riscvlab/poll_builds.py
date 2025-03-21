@@ -33,9 +33,12 @@ def main():
     parser.add_argument("--debug", default=False,
                         action=argparse.BooleanOptionalAction, help="Marks service as debug")
     args = parser.parse_args()
-    logging.basicConfig(filename=os.getenv("LOGS_LOCATION"),
-                        format=LOGGING_FORMAT,
-                        level=logging.DEBUG if args.debug else logging.INFO)
+    logging.basicConfig(format=LOGGING_FORMAT,
+                        level=logging.DEBUG if args.debug else logging.INFO,
+                        handlers=[
+                            logging.FileHandler(os.getenv("LOGS_LOCATION")),
+                            logging.StreamHandler(sys.stdout)
+                        ])
     logger.addHandler(logging.StreamHandler(sys.stdout))
     while True:
         try:
