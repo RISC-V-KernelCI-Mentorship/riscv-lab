@@ -11,9 +11,10 @@ import logging
 import json
 import sys
 import time
+import os
 from events import pollevents, processevents 
 
-LOGGING_FORMAT = "[(asctime)s][%(levelname)s][%(name)s] %(message)s"
+LOGGING_FORMAT = "[%(asctime)s][%(levelname)s][%(name)s] %(message)s"
 
 # This is staging server: "https://staging.kernelci.org:9000/latest"
 # For production use "https://kernelci-api.westus3.cloudapp.azure.com/latest/"
@@ -32,7 +33,7 @@ def main():
     parser.add_argument("--debug", default=False,
                         action=argparse.BooleanOptionalAction, help="Marks service as debug")
     args = parser.parse_args()
-    logging.basicConfig(filename="process_builds.log",
+    logging.basicConfig(filename=os.getenv("LOGS_LOCATION"),
                         format=LOGGING_FORMAT,
                         level=logging.DEBUG if args.debug else logging.INFO)
     while True:
