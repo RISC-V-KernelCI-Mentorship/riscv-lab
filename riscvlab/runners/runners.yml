@@ -1,0 +1,6 @@
+runners:
+  - type: github
+    owner: CamilaAlvarez
+    repo: riscv-lab
+    workflow-id: test_kernel.yml
+    secrets-key: github_access_token

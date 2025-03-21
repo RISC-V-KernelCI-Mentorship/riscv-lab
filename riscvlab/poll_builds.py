@@ -36,6 +36,7 @@ def main():
     logging.basicConfig(filename=os.getenv("LOGS_LOCATION"),
                         format=LOGGING_FORMAT,
                         level=logging.DEBUG if args.debug else logging.INFO)
+    logger.addHandler(logging.StreamHandler(sys.stdout))
     while True:
         try:
             events = pollevents(args.kind, args.arch)

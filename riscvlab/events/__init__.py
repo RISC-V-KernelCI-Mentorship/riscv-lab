@@ -5,7 +5,7 @@ from events.source.events_source import EventsSource
 from events.storage.events_storage import EventsStorage
 from events.source import source
 from events.storage import storage
-from runners.github import trigger_github_action
+from runners import run_event_processing
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,8 @@ class EventHandler:
         kernel_image = event["node"]["artifacts"]["kernel"]
         selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
         build_id = event["id"]
-        trigger_github_action(kernel_image, selftests, build_id)
+        
+        run_event_processing(kernel_image, selftests, build_id)
 
     def process_events(self, events):
         if len(events) == 0:

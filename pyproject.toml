@@ -16,6 +16,7 @@ packages = [
 [tool.poetry.dependencies]
 requests = "^2.32.3"
 python = "^3.10"
+pyyaml = "^6.0.2"
 
 [tool.poetry.scripts]
 riscv-lab = "riscvlab.poll_builds:main"
