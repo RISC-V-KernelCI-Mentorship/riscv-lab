@@ -40,6 +40,11 @@ jobs:
         run: ./tests_runner/run_qemu.sh "${{ inputs.kernel-url }}" /tmp/dqib_riscv64-virt/image.qcow2 /tmp/dqib_riscv64-virt/initrd "${{ inputs.build-id }}"
       - name: Run tests
         run: ./tests_runner/run_tests.sh /tmp/dqib_riscv64-virt/ssh_user_rsa_key "${{ inputs.build-id }}"
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: kselftest-logs
+          path: "/tmp/results_${{ inputs.build-id }}"
       - name: Print results
         run: ./tests_runner/print_tests_results.sh "${{ inputs.build-id }}"
 
