@@ -2,7 +2,7 @@ import json
 import requests
 import logging
 import argparse
-from requests.adapters import HTTPAdapter, Retry
+from libs.requests import create_session
 from config import secrets
 
 logger = logging.getLogger(__name__)
@@ -26,11 +26,7 @@ class GitHubRunner:
                 "X-GitHub-Api-Version": "2022-11-28"
 
         }
-        s = requests.Session()
-        retries = Retry(total=3,
-                        backoff_factor=0.1,
-                        status_forcelist=[429, 500, 502, 503, 504, 507])
-        s.mount("https://api.github.com", HTTPAdapter(max_retries=retries))
+        s = create_session("https://api.github.com")
         try:
             r = s.post(self.__github_url,
                    data=json.dumps({"ref": "main", "inputs": inputs}).encode(),
