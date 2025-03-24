@@ -5,7 +5,7 @@ class ExampleEventsSource(EventsSource):
     def __init__(self):
         self.__returned_response = False
 
-    def poll_events(self, timestamp: str, kind: str, arch: str) -> list[dict[str, str]]:
+    def poll_events(self, timestamp: str, kind: str, arch: str):
         response = []
         if not self.__returned_response:
             response = [{
@@ -19,4 +19,4 @@ class ExampleEventsSource(EventsSource):
                 "timestamp": "2025-03-16T22:29:22.598000"
             }]
             self.__returned_response = True 
-        return response
+        return response, "2025-03-16T22:29:22.598000"

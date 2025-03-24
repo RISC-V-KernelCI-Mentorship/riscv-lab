@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    global timestamp
 
     parser = argparse.ArgumentParser(description="Listen to events in Maestro.")
     parser.add_argument("--kind", default="kbuild", help="The kind of events")
@@ -42,8 +41,8 @@ def main():
     logger.addHandler(logging.StreamHandler(sys.stdout))
     while True:
         try:
-            events = pollevents(args.kind, args.arch)
-            processevents(events)
+            events, last_timestamp = pollevents(args.kind, args.arch)
+            processevents(events, last_timestamp)
         except requests.exceptions.RequestException as e:
             logger.error(f"Error: {e}")
             sys.exit(1)

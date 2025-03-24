@@ -18,9 +18,10 @@ class KernelCISource(EventsSource):
             response = s.get(url)
             response.raise_for_status()
             json_response = response.json()
+            last_timestamp = json_response[-1]["timestamp"] if len(json_response) > 0 else ""
             # We skip builds with result != pass
             filtered_events = [event for event in json_response if event["data"]["result"] == "pass" and event["data"]["data"]["arch"] == arch]
-            return filtered_events
+            return filtered_events, last_timestamp
         except requests.exceptions.RequestException as e:
             logger.warning(f"Could not obtain builds from KernelCI: {str(e)}")
 
@@ -30,5 +31,7 @@ if __name__ == "__main__":
     parser.add_argument("--arch", required=True, help="Arch used to filter builds")
     args = parser.parse_args()
     source = KernelCISource()
-    events = source.poll_events(args.timestamp, "build", args.arch)
+    events, timestamp = source.poll_events(args.timestamp, "kbuild", args.arch)
+    print(f"Last timestamp: {timestamp}")
     print(events)
+

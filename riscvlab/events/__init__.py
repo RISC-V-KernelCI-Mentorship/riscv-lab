@@ -30,7 +30,7 @@ class EventHandler:
         
         run_event_processing(kernel_image, selftests, build_id)
 
-    def process_events(self, events):
+    def process_events(self, events, last_timestamp):
         if len(events) == 0:
             logger.info("No new events, sleeping for 30 seconds")
             time.sleep(30)
@@ -39,8 +39,7 @@ class EventHandler:
         for event in events:
             logger.debug(json.dumps(event, indent=2))
             self.process_single_event(event)
-            timestamp = event["timestamp"]
-            self.__events_storage.store_timestamp(timestamp)
+        self.__events_storage.store_timestamp(last_timestamp)
 
     
 _handler = EventHandler(source, storage)
@@ -56,10 +55,10 @@ def pollevents(kind, arch):
 
     return _handler.poll_events(kind, arch)
 
-def processevents(events):
+def processevents(events, last_timestamp):
     """
     Processes all events. This function will probably be called
     from a while True loop
     """
-    _handler.process_events(events)
+    _handler.process_events(events, last_timestamp)
 
