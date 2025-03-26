@@ -3,17 +3,17 @@ import requests
 import argparse
 from libs.requests import create_session
 from events.source.events_source import EventsSource
+from kci import BASE_URI
 
 logger = logging.getLogger(__name__)
 
-_BASE_URI = "https://staging.kernelci.org:9000/latest"
 _EVENTS_PATH = "/events"
 
 class KernelCISource(EventsSource):
     
     def poll_events(self, timestamp: str, kind: str, arch: str):
-        s = create_session(_BASE_URI)
-        url = _BASE_URI + _EVENTS_PATH + f"?state=done&kind={kind}&limit=100&recursive=true&from={timestamp}"
+        s = create_session(BASE_URI)
+        url = BASE_URI + _EVENTS_PATH + f"?state=done&kind={kind}&limit=100&recursive=true&from={timestamp}"
         try:
             response = s.get(url)
             response.raise_for_status()
