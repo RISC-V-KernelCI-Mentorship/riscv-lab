@@ -31,7 +31,22 @@ def create_node(node_data):
         r.raise_for_status()
         return r.json()
     except requests.exceptions.RequestException as e:
-        logger.warning(f"Failed at creating node: {stre(e)}")
+        logger.warning(f"Failed at creating node: {str(e)}")
+        return None
+
+
+def update_node(node, data):
+    if "id" not in node:
+        logger.warning(f"Invalid node:{node}")
+        return None
+    url = urllib.parse.urljoin(urllib.parse.urljoin(BASE_URI, "/node/"), node["id"])
+    logger.debug(url)
+    try:
+        r = requests.put(url, json=data, headers=_get_auth_headers())
+        r.raise_for_status()
+        return r.json()
+    except requests.exceptions.RequestException as e:
+        logger.warning(f"Failed to retrieve node: {str(e)}")
         return None
 
 
