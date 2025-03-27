@@ -1,5 +1,7 @@
 FROM python:3.12
 
+RUN apt update -y && apt install -y --no-install-recommends libpq-dev
+
 ENV PYTHONFAULTHANDLER=1 \
   PYTHONUNBUFFERED=1 \
   PYTHONHASHSEED=random \

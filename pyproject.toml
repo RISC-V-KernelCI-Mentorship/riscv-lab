@@ -17,6 +17,8 @@ packages = [
 requests = "^2.32.3"
 python = "^3.10"
 pyyaml = "^6.0.2"
+kcidb = {git = "https://git@github.com/kernelci/kcidb.git"}
+logspec = {git = "https://git@github.com/kernelci/logspec.git"}
 
 [tool.poetry.scripts]
 riscv-lab = "riscvlab.poll_builds:main"
