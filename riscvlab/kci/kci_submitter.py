@@ -1,5 +1,6 @@
 import logging
 import kcidb
+import json
 from test_results.submit.submitters.tests_submitter import KSelftestsResultsSubmitter
 from kci.node import get_node, create_node, update_node
 

@@ -1,7 +1,7 @@
 import re
 import logging
 
-_selftest_re = re.compile(r"(?P<status>\w+( \w+)?) +\d+ +selftests: +\w+: +(?P<name>[^# ]+)( +# +(?P<extra>.*))?\s")
+_selftest_re = re.compile(r"(?P<status>\w+( \w+)?) +\d+ +selftests: +\w+: +(?P<name>[^#\s]+)( +# +(?P<extra>.*))?\s")
 _boot_failed_re = re.compile(r"\[[.0-9 ]+\] +Kernel panic")
 _collection_re = re.compile(r".*kselftest-(?P<collection>.*)\.log")
 logger = logging.getLogger(__name__)
@@ -34,7 +34,8 @@ def parse_from_log(log_file, test_builder):
             elif status == "not ok" and extra is not None:
                 result = "ERROR"
             results.append(test_builder.build(collection, 
-                                              groups["name"], status, 
+                                              groups["name"], 
+                                              result, 
                                               log_content))
         return results
 

@@ -26,6 +26,7 @@ class KCIKSelftestTestResult(KSelftestTestResult):
                 "build_id": self.__build_id,
                 "origin": self.__origin,
                 "status": self.result,
+                "path": self.get_path(),
                 "start_time": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
                 "misc": {}
             }

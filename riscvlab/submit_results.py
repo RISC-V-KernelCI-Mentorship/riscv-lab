@@ -21,6 +21,7 @@ def _generate_test_id(collection, name):
 def submit_test_results(build_id, logs_dir):
     tests = []
     builder = KCIKSelftestBuilder(_generate_test_id, build_id)
+    submitter = KCITestResultsSubmitter()
     for (dirpath, _, filenames) in os.walk(logs_dir):
         for file in filenames:
             log = os.path.join(dirpath, file)
@@ -29,6 +30,7 @@ def submit_test_results(build_id, logs_dir):
                 tests += parsed_tests
 
     logger.debug([test.to_json() for test in tests])
+    submitter.submit(tests)
 
 
 if __name__ == "__main__":
