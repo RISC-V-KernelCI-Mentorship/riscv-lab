@@ -13,9 +13,10 @@ class KCITestResultsSubmitter(KSelftestsResultsSubmitter):
     __project_id = "kernelci-production"
     __topic_name = "playground_kcidb_new"
 
-    def __init__(self):
+    def __init__(self, debug):
         self.__client = kcidb.Client(project_id=self.__project_id,
                                      topic_name=self.__topic_name)
+        self.__debug = debug
 
     def submit(self, tests):
         report = {
@@ -25,5 +26,8 @@ class KCITestResultsSubmitter(KSelftestsResultsSubmitter):
                 "minor": self.__version_minor
             }
         }
-        self.__client.submit(report)
+        if self.__debug:
+            logger.info(report)
+        else:
+            self.__client.submit(report)
 
