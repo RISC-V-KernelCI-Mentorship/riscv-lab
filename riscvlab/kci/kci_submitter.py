@@ -1,21 +1,23 @@
 import logging
 import kcidb
 import json
+import yaml
+import os
 from test_results.submit.submitters.tests_submitter import KSelftestsResultsSubmitter
 from kci.node import get_node, create_node, update_node
 
 logger = logging.getLogger(__name__)
 
 class KCITestResultsSubmitter(KSelftestsResultsSubmitter):
-    # TODO: Move this to a config file
-    __version_major = 5
-    __version_minor = 1
-    __project_id = "kernelci-production"
-    __topic_name = "playground_kcidb_new"
 
     def __init__(self, debug):
-        self.__client = kcidb.Client(project_id=self.__project_id,
-                                     topic_name=self.__topic_name)
+        config_path = os.path.join(os.path.dirname(__file__), "kcidb.yml")
+        with open(config_path, "r") as f:
+            config_file = yaml.safe_load(f)
+        self.__client = kcidb.Client(project_id=config_file["kcidb"]["project_id"],
+                                     topic_name=config_file["kcidb"]["topic"])
+        self.__version_major = config_file["kcidb"]["major"]
+        self.__version_minor = config_file["kcidb"]["minor"]
         self.__debug = debug
 
     def submit(self, tests):
