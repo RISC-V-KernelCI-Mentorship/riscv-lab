@@ -91,7 +91,7 @@ cd /kselftest_install
 export PATH=${PATH}:/kselftest_install/bpf/tools/sbin
 
 echo "TEST ${subtest}"
-./run_kselftest.sh -o ${timeout} -c ${subtest}
+./run_kselftest.sh -c ${subtest}
 EOF
 
     echo "dotest:"

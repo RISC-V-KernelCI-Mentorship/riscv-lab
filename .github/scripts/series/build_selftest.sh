@@ -16,4 +16,4 @@ build_id=$1
 install=${ci_root}/${build_id}
 
 mkdir -p ${install}/kselftest_install
-cp -r ${cur_dir}/kselftest ${install}/kselftest_install
+cp -r ${cur_dir}/kselftest/* ${install}/kselftest_install

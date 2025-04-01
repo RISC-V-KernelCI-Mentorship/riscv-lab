@@ -46,3 +46,8 @@ get_logs_dir() {
     mkdir -p ${logs}
     echo ${logs}
 }
+
+get_parsed_name() {
+    local name=$1
+    echo $(sed "s/:/_/g" <<< $name)
+}

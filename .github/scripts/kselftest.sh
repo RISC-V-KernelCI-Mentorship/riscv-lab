@@ -14,7 +14,8 @@ f=${logs}/kselftest.log
 date -Iseconds | tee -a ${f}
 echo "Run kselftests" | tee -a ${f}
 
+parsed_build=$(get_parsed_name $build_id)
 
-${d}/series/build_only_kselftest.sh $build_id | tee -a ${f}
+${d}/series/build_only_kselftest.sh $parsed_build | tee -a ${f}
 
-${d}/series/test_only_kselftest.sh $build_id | tee -a ${f}
+${d}/series/test_only_kselftest.sh $parsed_build | tee -a ${f}
