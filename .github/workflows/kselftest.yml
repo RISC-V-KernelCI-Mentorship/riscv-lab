@@ -1,0 +1,62 @@
+# SPDX-FileCopyrightText: 2024 Rivos Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: linux-riscv-ci-kselftest-riscv-lab
+
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
+on:
+  workflow_dispatch:
+    inputs:
+      kernel-url:
+        description: "Compiled kernel image url"
+        required: true
+        type: string
+      modules-url:
+        description: "Compiled kernel modules url"
+        required: true
+        type: string
+      selftests-url:
+        description: "Compiled selftests url"
+        required: true
+        type: string
+      build-id:
+        description: "Build id"
+        required: true
+        type: string
+
+concurrency:
+  group: ci-test-${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50400 # 35 days
+    container:
+      image: ghcr.io/linux-riscv/pw-builder:latest
+      volumes:
+        - /home/github/ramdisk/build:/build
+        - /home/github/ccache:/build/ccache
+        - /home/github/gitref:/build/gitref
+    steps:
+      - name: Configure git
+        run: |
+          git config --global --add safe.directory '*'
+      - name: Create work directory
+        run: |
+          mkdir -p /build/my-linux
+          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "{{ inputs.modules-url }}" "${{ inputs.selftests-url }}"
+      - name: Run checks
+        continue-on-error: true
+        run: |
+          cd /build/my-linux
+          bash .github/scripts/kselftest.sh "${{ inputs.build-id }}"
+      - name: Collect logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: /build/logs/*
