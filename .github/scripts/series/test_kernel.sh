@@ -5,7 +5,6 @@
 
 # Executes the VMs, and report.
 
-set -x
 set -euo pipefail
 
 d=$(dirname "${BASH_SOURCE[0]}")
@@ -111,7 +110,7 @@ fi
 qemu_to=$((2 * 24 * 3600))
 
 qemu_log=${tmp}/qemu.log
-qemu_bios=${ci_root}/firmware/${xlen}/fw_dynamic.bin
+qemu_bios=${ci_root}/firmware/rv64/fw_dynamic.bin
 qemu_kernel="${ci_root}/firmware/rv64/rv64-u-boot.bin"
 qemu_cpu=$(cpu_to_qemu $cpu)
 

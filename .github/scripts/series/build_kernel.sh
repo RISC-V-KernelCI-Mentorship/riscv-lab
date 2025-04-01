@@ -3,10 +3,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-set -x
 set -euo pipefail
 
 d=$(dirname "${BASH_SOURCE[0]}")
+cur_dir=$(pwd)
 . ${d}/utils.sh
 
 build_id=$1
@@ -17,6 +17,6 @@ output=${install}_build
 rm -rf ${install}
 mkdir -p ${install}
 
-cp ${d}/Image ${install}
-cp -r ${d}/modules/* ${install}
+cp ${cur_dir}/Image ${install}
+cp -r ${cur_dir}/modules/* ${install}
 

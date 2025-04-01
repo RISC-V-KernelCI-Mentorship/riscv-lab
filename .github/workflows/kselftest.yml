@@ -44,17 +44,17 @@ jobs:
         - /home/github/gitref:/build/gitref
     steps:
       - name: Configure git
-        run: |
-          git config --global --add safe.directory '*'
+        uses: actions/checkout@v4
       - name: Create work directory
         run: |
           mkdir -p /build/my-linux
-          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "{{ inputs.modules-url }}" "${{ inputs.selftests-url }}"
+          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "${{ inputs.modules-url }}" "${{ inputs.selftests-url }}"
       - name: Run checks
         continue-on-error: true
         run: |
+          b=$(pwd)
           cd /build/my-linux
-          bash .github/scripts/kselftest.sh "${{ inputs.build-id }}"
+          bash ${b}/.github/scripts/kselftest.sh "${{ inputs.build-id }}"
       - name: Collect logs
         uses: actions/upload-artifact@v4
         with:

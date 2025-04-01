@@ -10,19 +10,21 @@ d=$(dirname "${BASH_SOURCE[0]}")
 
 build_id=$1
 tst=$2
+rootfs="ubuntu"
 
 tm=$(mktemp -p ${ci_root})
 n=$build_id
 logs=$(get_logs_dir)
-
-log="test_kernel___${n}___${rootfs}___${tstn}.log"
+log="test_kernel___${n}___${rootfs}___${tst}.log"
+rc=0
+allrc=0
 \time --quiet -o $tm -f "took %es" \
     $d/test_kernel.sh "${build_id}" "${tst}" &> "${logs}/${log}" || rc=$?
 if (( $rc )); then
 allrc=1
-echo "::error::FAIL Test kernel ${n} ${rootfs} ${tst} $i/$tot \"${log}\" $(cat $tm)"
+echo "::error::FAIL Test kernel ${n} ${rootfs} ${tst} \"${log}\" $(cat $tm)"
 else
-echo "::notice::OK Test kernel ${n} ${rootfs} ${tst} $i/$tot $(cat $tm)"
+echo "::notice::OK Test kernel ${n} ${rootfs} ${tst} $(cat $tm)"
 fi
 rm $tm
 exit $allrc

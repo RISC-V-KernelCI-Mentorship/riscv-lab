@@ -5,7 +5,6 @@
 
 # Prepares a VM image, from a kernel tar-ball and a rootfs.
 
-set -x
 set -euo pipefail
 
 d=$(dirname "${BASH_SOURCE[0]}")
@@ -30,7 +29,7 @@ rootfs="$tmp/$(basename $rootfs .zst)"
 modpath=$(find $kernelpath -wholename '*/lib/modules')
 vmlinuz=$(find $kernelpath -name '*Image*')
 
-kselftestpath=${kernelpath}/kselftest/kselftest_install
+kselftestpath=${kernelpath}/kselftest_install
 
 imsz=0
 if [[ $tst =~ kselftest ]]; then
@@ -63,8 +62,7 @@ guestfish --remote -- \
           mkfs vfat /dev/sda1 : \
           mount /dev/sda1 /boot/efi : \
           tar-in $rootfs / : \
-          copy-in $vmlinuz /boot/efi/ : \
-          mv /boot/efi/$(basename $vmlinuz) /boot/efi/Image
+          copy-in $vmlinuz /boot/efi/
 
 
 if [[ -n $modpath ]]; then
@@ -88,7 +86,6 @@ if [[ $tst =~ kselftest ]]; then
     cat >$tmp/dotest <<EOF
 #!/bin/bash
 
-set -x
 echo "<5>Hello kselftest" > /dev/kmsg
 cd /kselftest_install
 export PATH=${PATH}:/kselftest_install/bpf/tools/sbin

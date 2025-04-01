@@ -4,7 +4,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 set -euo pipefail
-
 d=$(dirname "${BASH_SOURCE[0]}")
 . $d/utils.sh
 
