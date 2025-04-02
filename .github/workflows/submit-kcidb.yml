@@ -1,0 +1,48 @@
+name: Submit to KCIDB
+
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
+on:
+  workflow_call:
+    inputs:
+      build-id:
+        description: "KernelCI build id"
+        required: true
+        type: string
+      logs-dir:
+        description: "Path to the logs directory"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      build-id:
+        description: "KernelCI build id"
+        required: true
+        type: string
+      logs-dir:
+        description: "Path to the logs directory"
+        required: true
+        type: string
+jobs:
+  submit-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies 
+        run: |
+          sudo apt update -y
+          sudo apt install -y python-dev-is-python3 pip
+          pip install -r requirements.txt
+      - name: Run submit
+        env:
+          KCIDB_TOKEN: ${{ secrets.KCIDB_CREDENTIALS }}
+        run: |
+          cd riscvlab
+          echo "$KCIDB_TOKEN" > kcidb.json
+          export GOOGLE_APPLICATION_CREDENTIALS=kcidb.json
+          ./submit_results.py --build-id "${{ inputs.build-id }}" --logs-dir "${{ inputs.logs-dir }}" --submit-as-collections 
+
+    

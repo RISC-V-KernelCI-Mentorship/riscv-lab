@@ -4,7 +4,6 @@ import json
 import yaml
 import os
 from test_results.submit.submitters.tests_submitter import KSelftestsResultsSubmitter
-from kci.node import get_node, create_node, update_node
 
 logger = logging.getLogger(__name__)
 
