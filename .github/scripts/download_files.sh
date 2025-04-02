@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 
 d=`dirname ${BASH_SOURCE[0]}`
 kernel=$1

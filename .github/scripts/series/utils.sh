@@ -51,3 +51,10 @@ get_parsed_name() {
     local name=$1
     echo $(sed "s/:/_/g" <<< $name)
 }
+kselftest_subtests=()
+parse_tests_array() {
+    local kselftest_location=$1
+
+    kselftest_subtests=($(sed -r 's/^([^:]+):.*$/kselftest-\1/g' ${kselftest_location}/kselftest-list.txt | uniq))
+
+}

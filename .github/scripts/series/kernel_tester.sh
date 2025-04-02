@@ -12,10 +12,12 @@ build_id=$1
 tst=$2
 rootfs="ubuntu"
 
+test_name=$(sed 's/[\\/\r\n*?|:><"]/./g' <<< $tst)
+
 tm=$(mktemp -p ${ci_root})
 n=$build_id
 logs=$(get_logs_dir)
-log="test_kernel___${n}___${rootfs}___${tst}.log"
+log="test_kernel___${n}___${rootfs}___${test_name}.log"
 rc=0
 allrc=0
 \time --quiet -o $tm -f "took %es" \

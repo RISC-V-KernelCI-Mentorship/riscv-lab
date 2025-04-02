@@ -28,20 +28,32 @@ on:
         required: true
         type: string
 
-concurrency:
-  group: ci-test-${{ github.workflow }}-${{ github.ref_name }}
-  cancel-in-progress: true
-
 jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs: 
+      matrix: ${{ steps.create-matrix.outputs.matrix  }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create Matrix
+        id: create-matrix
+        run: |
+          ./.github/scripts/generate_tests_array.sh "${{ inputs.selftests-url }}" $GITHUB_OUTPUT 
+
   run-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 50400 # 35 days
+    needs: setup-matrix
     container:
       image: ghcr.io/linux-riscv/pw-builder:latest
       volumes:
         - /home/github/ramdisk/build:/build
         - /home/github/ccache:/build/ccache
         - /home/github/gitref:/build/gitref
+    strategy:
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+
     steps:
       - name: Configure git
         uses: actions/checkout@v4
@@ -50,13 +62,17 @@ jobs:
           mkdir -p /build/my-linux
           bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "${{ inputs.modules-url }}" "${{ inputs.selftests-url }}"
       - name: Run checks
-        continue-on-error: true
         run: |
           b=$(pwd)
           cd /build/my-linux
-          bash ${b}/.github/scripts/kselftest.sh "${{ inputs.build-id }}"
+          bash ${b}/.github/scripts/kselftest.sh "${{ inputs.build-id }}" "${{ matrix.test }}"
+      - name: Define log name
+        id: get-log-name
+        run: |
+          LOG_OUT_NAME=$(sed 's/[\\/\r\n*?|:><"]/./g' <<< ${{ matrix.test }})
+          echo "log-name=$LOG_OUT_NAME" >> $GITHUB_OUTPUT
       - name: Collect logs
         uses: actions/upload-artifact@v4
         with:
-          name: test-logs
+          name: test-logs-${{ steps.get-log-name.outputs.log-name }}
           path: /build/logs/*

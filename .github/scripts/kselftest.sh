@@ -5,8 +5,9 @@
 
 set -euo pipefail
 d=$(dirname "${BASH_SOURCE[0]}")
-build_id=$1
 . $d/series/utils.sh
+build_id=$1
+test_collection=$2
 
 logs=$(get_logs_dir)
 f=${logs}/kselftest.log
@@ -18,4 +19,4 @@ parsed_build=$(get_parsed_name $build_id)
 
 ${d}/series/build_only_kselftest.sh $parsed_build | tee -a ${f}
 
-${d}/series/test_only_kselftest.sh $parsed_build "${ci_root}/${parsed_build}/kselftest_install" | tee -a ${f}
+${d}/series/test_only_kselftest.sh $parsed_build $test_collection | tee -a ${f}
