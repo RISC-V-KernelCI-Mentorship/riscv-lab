@@ -18,4 +18,4 @@ parsed_build=$(get_parsed_name $build_id)
 
 ${d}/series/build_only_kselftest.sh $parsed_build | tee -a ${f}
 
-${d}/series/test_only_kselftest.sh $parsed_build | tee -a ${f}
+${d}/series/test_only_kselftest.sh $parsed_build "${ci_root}/${parsed_build}/kselftest_install" | tee -a ${f}
