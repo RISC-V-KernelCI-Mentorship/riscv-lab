@@ -1,0 +1,3 @@
+events:
+  prod: "https://kernelci-api.westus3.cloudapp.azure.com/latest"
+  dev: "https://staging.kernelci.org:9000/latest"
