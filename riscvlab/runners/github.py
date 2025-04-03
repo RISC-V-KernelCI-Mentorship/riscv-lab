@@ -3,37 +3,37 @@ import requests
 import logging
 import argparse
 from libs.requests import create_session
+from libs.jwt import generate_jwt
+from libs.github import github_post, get_installation_token
 from config import secrets
 
 logger = logging.getLogger(__name__)
 
 class GitHubRunner:
 
-    def __init__(self, secrets_key, owner, repo, workflow_id):
+    def __init__(self, secrets_key, owner, repo, workflow_id, client_id_key):
         self.__github_url = f"https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches"
         self.__secrets_key = secrets_key
+        self.__client_id_key = client_id_key
+        self.__owner = owner
+        self.__repo = repo
 
-    def __call__(self, kernel_url, selftests_url, build_id):
+    def __call__(self, kernel_url, selftests_url, modules_url, build_id):
         logger.debug("Running GitHub action")
         inputs = {
                 "kernel-url": kernel_url,
                 "selftests-url": selftests_url,
+                "modules-url": modules_url,
                 "build-id": build_id,
         }
-        headers = {
-                "Accept": "application/vnd.github+json",
-                "Authorization": f"Bearer {secrets.get(self.__secrets_key)}",
-                "X-GitHub-Api-Version": "2022-11-28"
-
-        }
-        s = create_session("https://api.github.com")
         try:
-            r = s.post(self.__github_url,
-                   data=json.dumps({"ref": "main", "inputs": inputs}).encode(),
-                   headers=headers)
-            r.raise_for_status()
-        except requests.exceptions.RequestException as e:
-            logger.warning(f"Could not trigger GitHub action: {str(e)}") 
+            token = get_installation_token(secrets.get(self.__secrets_key),
+                                           secrets.get(self.__client_id_key),
+                                           self.__owner,
+                                           self.__repo)
+            github_post(self.__github_url, {"ref": "main", "inputs": inputs}, token)
+        except:
+            logger.warning(f"Could not run GitHub action for build: {build_id}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Triggers kernel testing GitHub action")

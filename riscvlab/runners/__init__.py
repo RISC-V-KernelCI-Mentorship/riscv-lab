@@ -16,11 +16,12 @@ def _create_github_runner(runner, runner_type):
     repo = _get_key_or_raise("repo", runner, runner_type)
     workflow_id = _get_key_or_raise("workflow-id", runner, runner_type)
     secrets_key = _get_key_or_raise("secrets-key", runner, runner_type)
-    return GitHubRunner(secrets_key, owner, repo, workflow_id)
+    client_id_key = _get_key_or_raise("client-id-key", runner, runner_type)
+    return GitHubRunner(secrets_key, owner, repo, workflow_id, client_id_key)
 
-def run_event_processing(kernel_image, selftests, build_id):
+def run_event_processing(kernel_image, selftests, modules, build_id):
     for runner in _runners:
-        runner(kernel_image, selftests, build_id)
+        runner(kernel_image, selftests, modules, build_id)
 
 with open(os.path.join(_dirname, "runners.yml"), "r") as f:
     _yaml_runners = yaml.safe_load(f)

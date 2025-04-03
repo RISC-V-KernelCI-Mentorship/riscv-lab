@@ -3,4 +3,5 @@ runners:
     owner: RISC-V-KernelCI-Mentorship 
     repo: riscv-lab
     workflow-id: kselftest.yml
-    secrets-key: github_access_token
+    secrets-key: private_key_pem
+    client-id-key: client_id 

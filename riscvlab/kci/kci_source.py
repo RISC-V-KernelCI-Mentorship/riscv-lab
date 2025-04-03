@@ -21,6 +21,8 @@ class KernelCISource(EventsSource):
             last_timestamp = json_response[-1]["timestamp"] if len(json_response) > 0 else ""
             # We skip builds with result != pass
             filtered_events = [event for event in json_response if event["data"]["result"] == "pass" and event["data"]["data"]["arch"] == arch]
+            for event in filtered_events:
+                event["id"] = f"maestro:{event['id']}"
             return filtered_events, last_timestamp
         except requests.exceptions.RequestException as e:
             logger.warning(f"Could not obtain builds from KernelCI: {str(e)}")
