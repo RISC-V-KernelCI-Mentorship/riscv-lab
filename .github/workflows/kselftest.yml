@@ -76,3 +76,10 @@ jobs:
         with:
           name: test-logs-${{ steps.get-log-name.outputs.log-name }}
           path: /build/logs/*
+      - name: Submit to KCIDB
+        uses: ./.github/actions/submit_kcidb
+        with:
+          build-id: ${{ inputs.build-id }}
+          logs-dir: /build/logs/
+          kcidb-token: ${{ secrets.KCIDB_CREDENTIALS }}
+

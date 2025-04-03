@@ -43,6 +43,6 @@ jobs:
           cd riscvlab
           echo "$KCIDB_TOKEN" > kcidb.json
           export GOOGLE_APPLICATION_CREDENTIALS=kcidb.json
-          ./submit_results.py --build-id "${{ inputs.build-id }}" --logs-dir "${{ inputs.logs-dir }}" --submit-as-collections 
+          ./submit_results.py --build-id "${{ inputs.build-id }}" --logs-dir "${{ inputs.logs-dir }}" --submit-as-collections --only-print
 
     
