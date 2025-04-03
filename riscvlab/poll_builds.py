@@ -12,7 +12,8 @@ import json
 import sys
 import time
 import os
-from events import pollevents, processevents 
+from events import pollevents, processevents
+from logging.handlers import RotatingFileHandler
 
 LOGGING_FORMAT = "[%(asctime)s][%(levelname)s][%(name)s] %(message)s"
 
@@ -33,11 +34,10 @@ def main():
                         action=argparse.BooleanOptionalAction, help="Marks service as debug")
     args = parser.parse_args()
     logging.basicConfig(format=LOGGING_FORMAT,
-                        level=logging.DEBUG if args.debug else logging.INFO,
-                        handlers=[
-                            logging.FileHandler(os.getenv("LOGS_LOCATION")),
-                            logging.StreamHandler(sys.stdout)
-                        ])
+                        level=logging.DEBUG if args.debug else logging.INFO)
+    rotating_handler = RotatingFileHandler(os.getenv("LOGS_LOCATION"),
+                                           maxBytes=20*1024, backupCount=2)
+    logger.addHandler(rotating_handler)
     logger.addHandler(logging.StreamHandler(sys.stdout))
     while True:
         try:
