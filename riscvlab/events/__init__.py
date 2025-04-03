@@ -16,6 +16,7 @@ class EventHandler:
 
     def poll_events(self, kind: str, arch: str):
         timestamp = self.__events_storage.get_stored_timestamp()
+        logger.debug(timestamp)
         return self.__events_source.poll_events(timestamp, kind, arch)
 
     def process_single_event(self, event):
@@ -25,6 +26,9 @@ class EventHandler:
         json event to process. It includes the kernel image and selftests.
         """
         kernel_image = event["node"]["artifacts"]["kernel"]
+        if "kselftest_tar_gz" not in event["node"]["artifacts"]:
+            logger.warning("Build doesn't include compiled kselftests")
+            return
         selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
         build_id = event["id"]
         

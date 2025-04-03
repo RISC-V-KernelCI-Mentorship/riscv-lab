@@ -1,6 +1,6 @@
 runners:
   - type: github
-    owner: CamilaAlvarez
+    owner: RISC-V-KernelCI-Mentorship 
     repo: riscv-lab
-    workflow-id: test_kernel.yml
+    workflow-id: kselftest.yml
     secrets-key: github_access_token
