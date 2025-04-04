@@ -11,8 +11,7 @@ from kci.kci_tests_results import KCIKSelftestBuilder, KCIKSelftestTestResult
 
 logger = logging.getLogger(__name__)
 
-def _generate_test_id(collection, name):
-    base_id = os.getenv("RISCV_KCIDB_TEST_ID", "")
+def _generate_test_id(collection, name, base_id):
     test_id = f"{base_id}-{collection}-{name}".encode()
     sha256 = hashlib.sha256()
     sha256.update(test_id)

@@ -20,6 +20,7 @@ class KCITestResultsSubmitter(KSelftestsResultsSubmitter):
         self.__debug = debug
 
     def submit(self, tests):
+        logger.info(f"Submitting tests: {[test.to_json() for test in tests]}")
         report = {
             "tests": [test.to_json() for test in tests],
             "version": {
@@ -30,5 +31,9 @@ class KCITestResultsSubmitter(KSelftestsResultsSubmitter):
         if self.__debug:
             logger.info(report)
         else:
-            self.__client.submit(report)
+            try:
+                kcidb.io.SCHEMA.validate(report)            
+                self.__client.submit(report)
+            except:
+                logger.error("Could not validate submission!")
 

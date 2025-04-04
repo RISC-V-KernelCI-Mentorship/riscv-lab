@@ -8,7 +8,7 @@ class KCIKSelftestBuilder(KSelftestBuilder):
 
     def build(self, collection, name, result, log):
         return KCIKSelftestTestResult(collection, name, result, log,
-                                      self.__id_generator(collection, name),
+                                      self.__id_generator(collection, name, self.__build_id),
                                       self.__build_id)
 
 
