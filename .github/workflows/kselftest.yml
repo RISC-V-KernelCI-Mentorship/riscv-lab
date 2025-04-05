@@ -17,7 +17,7 @@ on:
         type: string
       modules-url:
         description: "Compiled kernel modules url"
-        required: true
+        default: ""
         type: string
       selftests-url:
         description: "Compiled selftests url"
