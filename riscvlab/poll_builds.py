@@ -16,12 +16,6 @@ from events import pollevents, processevents
 from logging.handlers import RotatingFileHandler
 
 LOGGING_FORMAT = "[%(asctime)s][%(levelname)s][%(name)s] %(message)s"
-
-# This is staging server: "https://staging.kernelci.org:9000/latest"
-# For production use "https://kernelci-api.westus3.cloudapp.azure.com/latest/"
-BASE_URI = "https://staging.kernelci.org:9000/latest"
-EVENTS_PATH = "/events"
-
 logger = logging.getLogger(__name__)
 
 
