@@ -32,8 +32,8 @@ class GitHubRunner:
                                            self.__owner,
                                            self.__repo)
             github_post(self.__github_url, {"ref": "main", "inputs": inputs}, token)
-        except:
-            logger.warning(f"Could not run GitHub action for build: {build_id}")
+        except Exception as e:
+            logger.warning(f"Could not run GitHub action: {str(e)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Triggers kernel testing GitHub action")
