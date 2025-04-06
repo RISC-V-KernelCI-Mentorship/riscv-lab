@@ -11,6 +11,9 @@ services:
       - type: bind
         source: ${SECRETS_LOC} 
         target: /secrets.json
+      - type: bind
+        source: ${GITHUB_APP_CERT}
+        target: /github_cert.pem
       - type: volume
         source: data 
         target: /data
