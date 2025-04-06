@@ -1,9 +1,11 @@
 services:
   app:
     image: ghcr.io/risc-v-kernelci-mentorship/riscv-lab:latest
+    container_name: poll-builds
     environment:
       - EVENTS_STORAGE=/data/timestamp
       - LOGS_LOCATION=/data/riscv_lab.log
+      - RISCV_ENV=prod
     restart: always
     volumes:
       - type: bind
