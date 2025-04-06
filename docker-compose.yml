@@ -1,12 +1,13 @@
 services:
   app:
-    build: .
+    image: ghcr.io/risc-v-kernelci-mentorship/riscv-lab:latest
     environment:
       - EVENTS_STORAGE=/data/timestamp
       - LOGS_LOCATION=/data/riscv_lab.log
+    restart: always
     volumes:
       - type: bind
-        source: secrets.json
+        source: ${SECRETS_LOC} 
         target: /secrets.json
       - type: volume
         source: data 
