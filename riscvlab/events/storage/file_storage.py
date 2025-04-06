@@ -9,11 +9,15 @@ class FileEventsStorage(EventsStorage):
 
     def __init__(self, initial_timestamp):
         try:
-            with open(self.__FILE_PATH, "r+") as f:
-                line = f.readline()
-                logger.debug(f"Current timestamp: {line}")
-                if not line.strip():
+            if not os.path.exists(self.__FILE_PATH):
+                with open(self.__FILE_PATH, "w") as f:
                     f.write(initial_timestamp)
+            else:
+                with open(self.__FILE_PATH, "r+") as f:
+                    line = f.readline()
+                    logger.debug(f"Current timestamp: {line}")
+                    if not line.strip():
+                        f.write(initial_timestamp)
         except Exception as e:
             raise Exception(f"Could not open events storage: {str(e)}")
     
