@@ -21,7 +21,7 @@ def github_post(url, payload, token):
         return r
     except requests.exceptions.RequestException as e:
         logger.warning(f"Could not post send request: {str(e)}") 
-        raise RuntimeError("Failed at GitHub post")
+        raise RuntimeError(str(e))
 
 
 def github_get(url, token):
@@ -38,7 +38,7 @@ def github_get(url, token):
         return r
     except requests.exceptions.RequestException as e:
         logger.warning(f"Could not get send request: {str(e)}")
-        raise RuntimeError("Failed at GitHub get")
+        raise RuntimeError(str(e))
 
 
 def get_installation_token(pem_file, client_id, owner, repo):
