@@ -8,7 +8,7 @@ my $tests_data;
 	local $/; # undefs $/ allowing us to read the whole file at once
 	$tests_data = <$fh>;
 }
-$tests_data =~ s/(^breakpoints:.*\n)|(^(?!cgroup:).*\n)//mg; # with m the caret matches every start of line (not only the start of the file)
+$tests_data =~ s/(^breakpoints:.*\n)|(^net\/forwarding:.*\n)//mg; # with m the caret matches every start of line (not only the start of the file)
 {
 	open my $fh, '>', $filename or die "Could not open file $filename: $!";
 	print $fh $tests_data;
