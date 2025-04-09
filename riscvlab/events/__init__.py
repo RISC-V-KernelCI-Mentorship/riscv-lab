@@ -31,6 +31,13 @@ class EventHandler:
         selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
         modules = event["node"]["artifacts"].get("modules", "")
         build_id = event["id"]
+
+        logger.info({
+            "build_id": build_id,
+            "kernel_image": kernel_image,
+            "modules": modules,
+            "selftests": selftests,
+        })
         
         run_event_processing(kernel_image, selftests, modules, build_id)
 

@@ -13,7 +13,7 @@ logs=$(get_logs_dir)
 f=${logs}/kselftest.log
 
 date -Iseconds | tee -a ${f}
-echo "Run kselftests" | tee -a ${f}
+echo "Run kselftests for ${build_id}" | tee -a ${f}
 
 parsed_build=$(get_parsed_name $build_id)
 
