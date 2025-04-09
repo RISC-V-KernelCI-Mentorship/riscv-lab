@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+set -x
 d=`dirname ${BASH_SOURCE[0]}`
 kernel=$1
 modules=$2
@@ -8,6 +8,7 @@ selftests=$3
 output_dir=/build/my-linux
 modules_dir=${output_dir}/modules
 kselftest_dir=${output_dir}/kselftest
+
 mkdir -p ${kselftest_dir}
 mkdir -p ${modules_dir}
 
