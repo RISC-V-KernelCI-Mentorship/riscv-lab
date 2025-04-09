@@ -3,8 +3,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+set -x 
 set -euo pipefail
 d=$(dirname "${BASH_SOURCE[0]}")
+
 . $d/series/utils.sh
 build_id=$1
 test_collection=$2
