@@ -16,8 +16,7 @@ n=$build_id
 logs=$(get_logs_dir)
 rc=0
 log="build_kernel___${n}.log"
-\time --quiet -o $tm -f "took %es" \
-      $d/build_kernel.sh "${build_id}" &> "${logs}/${log}" || rc=$?
+$d/build_kernel.sh "${build_id}" || rc=$?
 
 if grep -a ": warning:" "${logs}/${log}" | grep -qv "frame size"; then
     # TODO Can't get rid of LLVM "warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]"

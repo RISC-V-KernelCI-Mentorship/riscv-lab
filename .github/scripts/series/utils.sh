@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-d=$(dirname "${BASH_SOURCE[0]}")
 ci_root=${CI_ROOT:-"/build"}
 ci_triple=${CI_TRIPLE:-"riscv64-linux"}
 ci_patches=${CI_PATCHES:-"$d/patches"}
@@ -54,6 +53,7 @@ get_parsed_name() {
 }
 kselftest_subtests=()
 parse_tests_array() {
+    local d=$(dirname "${BASH_SOURCE[0]}")
     local kselftest_location=$1
     ${d}/remove_unwanted_tests ${kselftest_location}/kselftest-list.txt
     kselftest_subtests=($(sed -r 's/^([^:]+):.*$/kselftest-\1/g' ${kselftest_location}/kselftest-list.txt | uniq))
