@@ -26,7 +26,7 @@ rm -rf $tests_dir
 mkdir -p $tests_dir && \
 tar xf $tests_file -C $tests_dir &&\
 # for now we remove step_after_suspend_test
-$base_dir/remove_unwanted_tests $tests_dir/kselftest-list.txt &&\
+$base_dir/../scripts/series/remove_unwanted_tests $tests_dir/kselftest-list.txt &&\
 modprobe nbd max_part=8 &&\
 qemu-nbd --connect=/dev/nbd0 $disk_image &&\
 # we add a small delay
