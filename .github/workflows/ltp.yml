@@ -45,7 +45,7 @@ jobs:
       - name: Setup workdir
         run: |
           mkdir -p /build/my-linux
-          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "${{ inputs.modules-url }}"
+          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "${{ inputs.modules-url }}" "" --nodecompress
       - name: Run LTP
         run: |
           b=$(pwd)
