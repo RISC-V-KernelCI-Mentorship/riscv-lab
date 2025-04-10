@@ -1,0 +1,48 @@
+name: ltp-riscv-tests
+
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
+
+on:
+  workflow_dispatch:
+    inputs:
+      kernel-url:
+        description: "Compiled kernel image url"
+        required: true
+        type: string
+      modules-url:
+        description: "Compiled kernel modules url"
+        default: ""
+        type: string
+      build-id:
+        description: "Build id"
+        required: true
+        type: string
+
+jobs:
+  run-ltp:
+    runs-on: ubuntu-latest
+    needs: setup-matrix
+    container:
+      image: ghcr.io/linux-riscv/linaro-tuxrun-dispatcher-riscv64:latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup workdir
+        run: |
+          mkdir -p /build/my-linux
+          bash .github/scripts/download_files.sh "${{ inputs.kernel-url }}" "${{ inputs.modules-url }}"
+      - name: Run LTP
+        run: |
+          b=$(pwd)
+          mkdir -p /tests/results_json
+          cd /build/my-linux
+          bash ${b}/.github/scripts/ltp.sh "Image" "modules/modules.tar.xz" "${{ inputs.build-id }}" "${{ matrix.test }}"
+      - name: Upload artifacts
+        uses: actions/upload-artifacts@v4
+        with:
+          name: ltp-logs-${{matrix.text}}
+          path: /tests/results_json/*

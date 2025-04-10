@@ -18,5 +18,8 @@ then
 	curl -L $modules -o modules.tar.xz &&\
 	tar xvf modules.tar.xz -C ${modules_dir}
 fi
-curl -L $selftests -o selftests.tar.gz &&\
-tar xvf selftests.tar.gz -C ${kselftest_dir}
+if [[ -n $selftests ]]
+then
+	curl -L $selftests -o selftests.tar.gz &&\
+	tar xvf selftests.tar.gz -C ${kselftest_dir}
+fi
