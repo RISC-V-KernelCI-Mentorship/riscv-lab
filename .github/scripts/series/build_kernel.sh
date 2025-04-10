@@ -20,5 +20,5 @@ mkdir -p ${install}
 cp ${cur_dir}/Image ${install}
 if [[ -d ${cur_dir}/modules ]]
 then
-	cp -r ${cur_dir}/modules/* ${install}
+	cp -r ${cur_dir}/modules/ ${install}
 fi
