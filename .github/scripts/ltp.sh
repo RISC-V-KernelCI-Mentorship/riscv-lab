@@ -13,7 +13,6 @@ f=${logs}/ltp.log
 KERNEL_PATH=$1
 MODULES_PATH=$2
 TEST=$3
-BUILD_ID=$4
 OUT_DIR="/tests/results_json"
 
 

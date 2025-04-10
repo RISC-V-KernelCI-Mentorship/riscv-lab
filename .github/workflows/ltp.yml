@@ -51,7 +51,7 @@ jobs:
           b=$(pwd)
           mkdir -p /tests/results_json
           cd /build/my-linux
-          bash ${b}/.github/scripts/ltp.sh "Image" "modules/modules.tar.xz" "${{ inputs.build-id }}" "${{ matrix.test }}"
+          bash ${b}/.github/scripts/ltp.sh "Image" "modules/modules.tar.xz" "${{ matrix.test }}"
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
