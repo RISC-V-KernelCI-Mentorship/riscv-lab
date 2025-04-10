@@ -21,6 +21,17 @@ on:
         type: string
 
 jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create LTP matrix
+        id: matrix
+        run: |
+          ./.github/scripts/matrix/ltp_matrix.sh $GITHUB_OUTPUT
+
   run-ltp:
     runs-on: ubuntu-latest
     needs: setup-matrix
@@ -42,7 +53,7 @@ jobs:
           cd /build/my-linux
           bash ${b}/.github/scripts/ltp.sh "Image" "modules/modules.tar.xz" "${{ inputs.build-id }}" "${{ matrix.test }}"
       - name: Upload artifacts
-        uses: actions/upload-artifacts@v4
+        uses: actions/upload-artifact@v4
         with:
           name: ltp-logs-${{matrix.text}}
           path: /tests/results_json/*
