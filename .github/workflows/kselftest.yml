@@ -40,7 +40,7 @@ jobs:
       - name: Create Matrix
         id: create-matrix
         run: |
-          ./.github/scripts/generate_tests_array.sh "${{ inputs.selftests-url }}" $GITHUB_OUTPUT
+          ./.github/scripts/matrix/kselftest_matrix.sh "${{ inputs.selftests-url }}" $GITHUB_OUTPUT
 
   run-tests:
     runs-on: ubuntu-latest

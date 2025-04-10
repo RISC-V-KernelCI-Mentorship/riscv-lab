@@ -21,9 +21,6 @@ OUT_DIR="/tests/results_json"
 # dependencies
 source /build/.env/bin/activate
 
-# TODO ltp-controllers is too slow for now because of cgroup_fj_stress.sh
-# but I haven't found an easy to skip this one from tuxrun
-ltp_tests=( "ltp-commands"  "ltp-syscalls" "ltp-mm" "ltp-hugetlb" "ltp-crypto" "ltp-cve" "ltp-containers" "ltp-fs" "ltp-sched" )
 
 mkdir -p $OUT_DIR
 
