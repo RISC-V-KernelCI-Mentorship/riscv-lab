@@ -107,7 +107,7 @@ if (( $rc )); then
     exit 1
 fi
 
-qemu_to=$((2 * 3600))
+qemu_to=$((1800))
 
 qemu_log=${tmp}/qemu.log
 qemu_bios=${ci_root}/firmware/rv64/fw_dynamic.bin
