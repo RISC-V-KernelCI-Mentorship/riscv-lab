@@ -30,7 +30,7 @@ class EventHandler:
             return
         selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
         modules = event["node"]["artifacts"].get("modules", "")
-        build_id = event["id"]
+        build_id = event["node"]["id"]
 
         logger.info({
             "build_id": build_id,

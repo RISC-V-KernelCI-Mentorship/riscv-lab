@@ -1,6 +1,7 @@
 import logging
 import requests
 import argparse
+import json
 from libs.requests import create_session
 from events.source.events_source import EventsSource
 from kci import BASE_URI
@@ -22,7 +23,7 @@ class KernelCISource(EventsSource):
             # We skip builds with result != pass
             filtered_events = [event for event in json_response if event["data"]["result"] == "pass" and event["data"]["data"]["arch"] == arch]
             for event in filtered_events:
-                event["id"] = f"maestro:{event['id']}"
+                event["node"]["id"] = f"maestro:{event['node']['id']}"
             return filtered_events, last_timestamp
         except requests.exceptions.RequestException as e:
             logger.warning(f"Could not obtain builds from KernelCI: {str(e)}")
@@ -35,5 +36,5 @@ if __name__ == "__main__":
     source = KernelCISource()
     events, timestamp = source.poll_events(args.timestamp, "kbuild", args.arch)
     print(f"Last timestamp: {timestamp}")
-    print(events)
+    print(json.dumps(events))
 
