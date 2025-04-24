@@ -11,6 +11,7 @@ class ExampleEventsSource(EventsSource):
             response = [{
                 "id": "67d750c29e4e84ff5b51a65e",
                 "node": {
+                    "id": "67d750c29e4e84ff5b51a65e",
                     "artifacts": {
                         "kernel": "http://mon.kernelci.org:3000/kbuild-gcc-12-riscv-67d74cdc9e4e84ff5b51a5d6/Image",
                         "kselftest_tar_gz": "http://mon.kernelci.org:3000/kbuild-gcc-12-riscv-67d74cdc9e4e84ff5b51a5d6/kselftest.tar.gz"

@@ -1,6 +1,7 @@
 import yaml
 import os
 from runners.github import GitHubRunner
+from runners.riscv_api import RiscVAPIRunner
 
 
 _runners = []
@@ -19,6 +20,13 @@ def _create_github_runner(runner, runner_type):
     client_id_key = _get_key_or_raise("client-id-key", runner, runner_type)
     return GitHubRunner(secrets_key, owner, repo, workflow_id, client_id_key)
 
+def _create_riscv_api_runner(runner, runner_type):
+    url = _get_key_or_raise("url", runner, runner_type)
+    tests = _get_key_or_raise("tests", runner, runner_type)
+    tests_collection = _get_key_or_raise("test-collection", runner, runner_type)
+    return RiscVAPIRunner(url, tests, tests_collection)
+
+
 def run_event_processing(kernel_image, selftests, modules, build_id):
     for runner in _runners:
         runner(kernel_image, selftests, modules, build_id)
@@ -32,6 +40,8 @@ for runner in _yaml_runners["runners"]:
     runner_type = runner["type"]
     if runner_type == "github":
         _runners.append(_create_github_runner(runner, runner_type))
+    elif runner_type == "riscv-api":
+        _runners.append(_create_riscv_api_runner(runner, runner_type))
     else:
         raise Exception(f"Invalid runner type: {runner_type}")
 

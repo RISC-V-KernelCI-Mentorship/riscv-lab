@@ -1,7 +1,24 @@
 runners:
   - type: github
-    owner: RISC-V-KernelCI-Mentorship 
+    owner: RISC-V-KernelCI-Mentorship
     repo: riscv-lab
     workflow-id: kselftest.yml
     secrets-key: private_key_pem
-    client-id-key: client_id 
+    client-id-key: client_id
+  - type: riscv-api
+    url: http://localhost/api/v1/riscv-lab/run-tests
+    test-collection: ltp
+    tests:
+      - ltp-controllers
+      - ltp-fcntl-locktests
+      - ltp-fs_bind
+      - ltp-fs_perms_simple
+      - ltp-fsx
+      - ltp-nptl
+      - ltp-smoke
+  type: riscv-api
+    url: http://localhost/api/v1/riscv-lab/run-tests
+    test-collection: kunit
+    tests:
+      - kunit
+  

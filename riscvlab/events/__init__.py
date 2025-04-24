@@ -27,8 +27,9 @@ class EventHandler:
         kernel_image = event["node"]["artifacts"]["kernel"]
         if "kselftest_tar_gz" not in event["node"]["artifacts"]:
             logger.warning("Build doesn't include compiled kselftests")
-            return
-        selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
+            selftests = None
+        else:
+            selftests = event["node"]["artifacts"]["kselftest_tar_gz"]
         modules = event["node"]["artifacts"].get("modules", "")
         build_id = event["node"]["id"]
 

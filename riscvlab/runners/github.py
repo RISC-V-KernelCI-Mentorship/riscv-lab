@@ -19,6 +19,9 @@ class GitHubRunner:
         self.__repo = repo
 
     def __call__(self, kernel_url, selftests_url, modules_url, build_id):
+        if selftests_url is None:
+            logger.warning("Cannot run GitHub Action without kselftests")
+            return
         logger.debug("Running GitHub action")
         inputs = {
                 "kernel-url": kernel_url,
