@@ -65,7 +65,9 @@ service poll-builds stop
 
 The different test runners called after getting the builds can be found in the [runners.yml file](riscvlab/runners/runners.yml).
 
-For now only GitHub actions runners have been implemented. They look as follows:
+There are 2 kinds of runners:
+
+1. GitHub Actions:
 
 ```shell
   - type: github
@@ -88,6 +90,16 @@ With all of the above, the secrets json file could look like this:
         "private_key_pem": "/github_cert.pem",
         "client_id": "Ibg6rgvjjgsayt8"
 }
+```
+
+2. RISC-V API:
+
+```shell
+  - type: riscv-api
+    url: http://localhost/api/v1/riscv-lab/run-tests
+    test-collection: kunit
+    tests:
+      - kunit
 ```
 
 ### GitHub App
