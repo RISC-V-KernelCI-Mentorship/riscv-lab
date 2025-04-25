@@ -31,7 +31,7 @@ def run_event_processing(kernel_image, selftests, modules, build_id):
     for runner in _runners:
         runner(kernel_image, selftests, modules, build_id)
 
-with open(os.path.join(_dirname, "runners.yml"), "r") as f:
+with open(os.getenv("RUNNERS"), "r") as f:
     _yaml_runners = yaml.safe_load(f)
 
 for runner in _yaml_runners["runners"]:

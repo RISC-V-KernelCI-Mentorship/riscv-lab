@@ -5,6 +5,7 @@ services:
     environment:
       - EVENTS_STORAGE=/data/timestamp
       - LOGS_LOCATION=/data/riscv_lab.log
+      - RUNNERS=/runners.yml
       - RISCV_ENV=prod
     restart: always
     volumes:
@@ -17,5 +18,8 @@ services:
       - type: volume
         source: data 
         target: /data
+      - type: bind
+        source: ${RUNNERS}
+        target: /runners.yml
 volumes:
   data:
