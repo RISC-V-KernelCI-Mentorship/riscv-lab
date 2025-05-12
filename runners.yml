@@ -16,9 +16,8 @@ runners:
       - ltp-fsx
       - ltp-nptl
       - ltp-smoke
-  type: riscv-api
+  - type: riscv-api
     url: http://localhost/api/v1/riscv-lab/run-tests
     test-collection: kunit
     tests:
       - kunit
-  
