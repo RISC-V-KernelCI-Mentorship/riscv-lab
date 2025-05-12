@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install dependencies 
+      - name: Install dependencies
         run: |
           sudo apt update -y
           sudo apt install -y python-dev-is-python3 pip
@@ -41,8 +41,5 @@ jobs:
           KCIDB_TOKEN: ${{ secrets.KCIDB_CREDENTIALS }}
         run: |
           cd riscvlab
-          echo "$KCIDB_TOKEN" > kcidb.json
-          export GOOGLE_APPLICATION_CREDENTIALS=kcidb.json
+          export KCIDB_REST=$KCIDB_TOKEN
           ./submit_results.py --build-id "${{ inputs.build-id }}" --logs-dir "${{ inputs.logs-dir }}" --submit-as-collections --only-print
-
-    
