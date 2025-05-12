@@ -1,8 +1,5 @@
-import json
 import requests
 import logging
-from libs.github import github_post, get_installation_token
-from config import secrets
 
 logger = logging.getLogger(__name__)
 
