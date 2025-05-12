@@ -2,23 +2,21 @@
 name = "riscv-lab"
 version = "0.1.0"
 description = "Listens to RISC-V build from KernelCI and triggers tests"
-authors = [
-    "Camila Alvarez <cam.alvarez.i@gmail.com>"
-]
+authors = ["Camila Alvarez <cam.alvarez.i@gmail.com>"]
 readme = "README.md"
 license = "LGPL-2.1-or-later"
 repository = "https://github.com/CamilaAlvarez/riscv-lab"
 packages = [
-	{include = "riscvlab"},
-	{include = "runners", from = "riscvlab"}
-] 
+	{ include = "riscvlab" },
+	{ include = "runners", from = "riscvlab" },
+]
 
 [tool.poetry.dependencies]
-requests = "^2.25.1"
+requests = "^2.32.3"
 python = "^3.10"
 pyyaml = "^6.0.2"
-kcidb = {git = "https://git@github.com/kernelci/kcidb.git"}
-logspec = {git = "https://git@github.com/kernelci/logspec.git"}
+kcidb = { git = "https://git@github.com/kernelci/kcidb.git" }
+logspec = { git = "https://git@github.com/kernelci/logspec.git" }
 pyjwt = "^2.10.1"
 cryptography = "^44.0.2"
 
