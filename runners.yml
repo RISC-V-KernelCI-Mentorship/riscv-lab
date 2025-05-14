@@ -6,7 +6,7 @@ runners:
     secrets-key: private_key_pem
     client-id-key: client_id
   - type: riscv-api
-    url: http://localhost/api/v1/riscv-lab/run-tests
+    url: http://localhost/api/v1/tests/run
     test-collection: ltp
     tests:
       - ltp-controllers
@@ -17,7 +17,9 @@ runners:
       - ltp-nptl
       - ltp-smoke
   - type: riscv-api
-    url: http://localhost/api/v1/riscv-lab/run-tests
+    url: http://localhost/api/v1/tests/run
     test-collection: kunit
     tests:
       - kunit
+  - type: riscv-boot-test
+    url: http://localhost/api/v1/boot-test/run

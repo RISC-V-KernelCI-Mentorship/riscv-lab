@@ -23,3 +23,21 @@ class RiscVAPIRunner:
             requests.post(self.__service_url, json=inputs)
         except Exception as e:
             logger.warning(f"Could not run RISC-V API runner: {str(e)}")
+
+
+class RiscVAPIBootRunner:
+
+    def __init__(self, url):
+        self.__service_url = url
+
+    def __call__(self, kernel_url, selftests_url, modules_url, build_id):
+        inputs = {
+                "kernel_image_url": kernel_url,
+                "modules_url": modules_url,
+                "build_id": build_id,
+        }
+        logger.info(f"Running RISCV API Boot testing Runner: {inputs}")
+        try:
+            requests.post(self.__service_url, json=inputs)
+        except Exception as e:
+            logger.warning(f"Could not run RISC-V API runner: {str(e)}")
