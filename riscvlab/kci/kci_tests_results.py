@@ -28,6 +28,9 @@ class KCIKSelftestTestResult(KSelftestTestResult):
                 "status": self.result,
                 "path": self.get_path(),
                 "start_time": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-                "misc": {}
+                "misc": {
+                    "runtime": "riscv-lab",
+                    "platform": "qemu-riscv64"
+                }
             }
 
