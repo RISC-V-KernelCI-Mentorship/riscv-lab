@@ -24,6 +24,9 @@ class EventHandler:
         
         json event to process. It includes the kernel image and selftests.
         """
+        if "kernel" not in event["node"]["artifacts"]:
+            logger.warning("Build doesn't include kernel")
+            return
         kernel_image = event["node"]["artifacts"]["kernel"]
         if "kselftest_tar_gz" not in event["node"]["artifacts"]:
             logger.warning("Build doesn't include compiled kselftests")
